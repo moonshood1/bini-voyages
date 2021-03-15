@@ -81,6 +81,11 @@ class Listing
      */
     private $listing_category;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isOpen;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -287,6 +292,18 @@ class Listing
     public function setListingCategory(?ListingCategory $listing_category): self
     {
         $this->listing_category = $listing_category;
+
+        return $this;
+    }
+
+    public function getIsOpen(): ?bool
+    {
+        return $this->isOpen;
+    }
+
+    public function setIsOpen(bool $isOpen): self
+    {
+        $this->isOpen = $isOpen;
 
         return $this;
     }

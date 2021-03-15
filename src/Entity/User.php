@@ -6,11 +6,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -38,6 +42,11 @@ class User
      * @ORM\Column(type="string", length=255 , nullable=true)
      */
     private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="hash", message="Les deux mots de passe ne sont pas identiques")
+     */
+    public $confirmPassword;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -88,6 +97,11 @@ class User
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="booker")
      */
     private $bookings;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     public function __construct()
     {
@@ -354,6 +368,37 @@ class User
                 $booking->setBooker(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        $roles = $this->userRoles->map(function($role){
+            return $role->getTitle();
+        })->toArray();
+
+        $roles[] = 'ROLE_USER';
+        
+        return $roles;        
+    }
+    
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(){}
+    public function getSalt(){}
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
