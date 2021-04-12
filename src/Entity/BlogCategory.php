@@ -6,9 +6,11 @@ use App\Repository\BlogCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BlogCategoryRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class BlogCategory
 {
@@ -21,11 +23,15 @@ class BlogCategory
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 4, minMessage = "Le nom de la catégorie est trop court")
+     * @Assert\Regex("/^\w+/")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/^\w+/", message="Caractères non valides")
      */
     private $category_icon;
 

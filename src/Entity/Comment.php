@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Comment
 {
@@ -29,6 +31,8 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min = 1, minMessage = "Le commentaire est trop court")
+     * @Assert\Regex("/^\w+/")
      */
     private $content;
 
@@ -43,6 +47,16 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistCreatedAt() 
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {

@@ -1,0 +1,94 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Front{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "admin/partials/flashes.html.twig" %}
+            {% include "admin/partials/navigation/navigation.html.twig" with {text:"Retour à l'accueil",link:"admin_home", detail_1:"Menu Front créé : 1"} %} 
+        </div>
+        <div class="col-md-9">
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row">
+                        {% for front in fronts %}
+                        <div class="col-md-12">
+                            <h5 class="card-title">Elements de la page d'accueil</h5>
+                            <p><a href="{{ path('admin_frontend_edit', {'id': front.id }) }}">Modifier le frontend</a></p>
+                            <hr>
+                                
+                            <h4>Page d'accueil</h4>
+                            <small>Les éléments ci-dessous sont ceux présents sur la premiere section de la page d'accueil</small>
+                            <hr>
+                            <div class="my-2">
+                                <h6>Image principal</h6>
+                                <img src="{{ front.frontMainImage }}" alt="" class="miniature-large">                           
+                            </div>
+                            <div class="my-2">
+                                <h6>Titre principal</h6>
+                                <input class="form-control" type="text" placeholder="{{ front.frontTitle }}" readonly>                           
+                            </div>
+                            <div class="my-2">
+                                <h6>Phrase d'introduction</h6>
+                                <input class="form-control" type="text" placeholder="{{ front.frontIntroduction }}" readonly>                           
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-md-12">
+                            <h4>Footer</h4>
+                            <small>Les éléments ci-dessous sont ceux présents sur la seconde de la page d'accueil, le pied de page</small>
+                            <hr>
+                            <div class="my-2">
+                                <h6>Texte à propos</h6>
+                                  <div class="form-group">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" disabled>
+                                    {{ front.frontFooterAbout }}                                        
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="my-2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Localisation</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterLocation }}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Email</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterEmail }}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Contact 1</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterContact1 }}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Contact 2</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterContact2 }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <h6>Lien Facebook</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterFacebook }}" readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6>Lien Instagram</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterInstagram }}" readonly>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6>Lien Twitter</h6>
+                                        <input class="form-control" type="text" placeholder="{{ front.frontFooterTwitter }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

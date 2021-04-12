@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\BlogRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BlogRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Blog
 {
@@ -19,11 +21,16 @@ class Blog
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 20, minMessage = "Le titre de l'article est trop court")
+     * @Assert\Regex("/^\w+/")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 50, minMessage = "Le texte de l'article est trop court")
      */
     private $content;
 
@@ -39,6 +46,8 @@ class Blog
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $main_image;
 
@@ -77,6 +86,16 @@ class Blog
      * @ORM\ManyToOne(targetEntity=BlogCategory::class, inversedBy="blog")
      */
     private $blog_category;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistCreatedAt()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {

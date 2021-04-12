@@ -1,0 +1,15 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification du Front{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+           {% include "admin/partials/navigation/navigation_detail.html.twig" %} 
+        </div>
+        <div class="col-md-9">
+            {% include "admin/partials/_form_default.html.twig" with {title:"Modification des éléments du Front", button_title:"Enregistrer les modifications"} %}        </div>
+    </div>
+</div>
+{% endblock %}

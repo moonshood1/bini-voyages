@@ -1,0 +1,43 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Guides Bini{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "admin/partials/flashes.html.twig" %}
+            {% include "admin/partials/navigation/navigation.html.twig" with {text:"Retour à l'accueil",link:"admin_home", detail_1:"Nombre total de guides : 6"} %} 
+        </div>
+        <div class="col-md-9">
+            <div class="card my-2">
+                <div class="card-body">
+                <h4 class="card-title"> Les Guides des circuits Bini </h4>
+                <p><a href="{{path('admin_guides_create')}}">Ajouter un guide</a></p>
+                <table class="table table-hover">
+                        <thead class="thead">
+                            <tr>
+                                <th scope="col">Image du guide</th>
+                                <th scope="col">Nom du Guide</th>
+                                <th scope="col" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for guide in guides %}
+                                <tr>
+                                    <td><img src="{{ guide.guidePicture }}" alt="" class="avatar avatar-medium"></td>
+                                    <td>{{ guide.guideName }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ path('admin_guides_delete',{'id': guide.id } )}} " class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ path('admin_guides_edit',{'id': guide.id })}} " class="btn btn-dark"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

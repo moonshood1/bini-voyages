@@ -1,26 +1,12 @@
 <div class="card-deck category">
-    <a href="#">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title"><i class="fas fa-utensils"></i></h5>
-                <p class="card-text">Gastro</p>
+    {% for cat in cats %}  
+        <a href="#">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="{{ cat.categoryIcon }}"></i></h5>
+                    <p class="card-text">{{ cat.title }}</p>
+                </div>
             </div>
-        </div>
-    </a>
-    <a href="#">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title"><i class="fas fa-binoculars"></i></h5>
-                <p class="card-text">Aventure</p>                       
-            </div>
-        </div>
-    </a>
-    <a href="#">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title"><i class="fas fa-glass-martini"></i></h5>
-                <p class="card-text">Farniente</p>                       
-            </div>
-        </div>
-    </a>
+        </a>
+    {% endfor %}
 </div>

@@ -1,0 +1,41 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Villes{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "admin/partials/flashes.html.twig" %}
+            {% include "admin/partials/navigation/navigation.html.twig" with {text:"Retour à l'accueil",link:"admin_home", detail_1:"Nombre total des villes : 4"} %} 
+        </div>
+        <div class="col-md-9">
+            <div class="card my-2">
+                <div class="card-body">
+                <h4 class="card-title"> Liste des villes disponibles </h4>
+                <p><a href="{{path('admin_city_create')}}">Ajouter une ville</a></p>
+                <table class="table table-hover">
+                        <thead class="thead">
+                            <tr>
+                                <th scope="col">Nom de la ville</th>
+                                <th scope="col" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for city in cities %}
+                                <tr>
+                                    <td>{{ city.name }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ path('admin_city_delete',{'id': city.id } )}} " class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ path('admin_city_edit',{'id': city.id })}} " class="btn btn-dark"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

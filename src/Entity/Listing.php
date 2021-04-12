@@ -6,9 +6,11 @@ use App\Repository\ListingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ListingRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Listing
 {
@@ -21,31 +23,46 @@ class Listing
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 10, minMessage = "Le titre du ciruit est trop court")
+     * @Assert\Regex("/^\w+/")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 10, minMessage = "L'emplacement du circuit est trop court")
+     * @Assert\Regex("/^\w+/")
      */
     private $location;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(max = 10, maxMessage = "Le contact doit avoir 10 chiffres")
+     * @Assert\Regex("/^\w+/")
      */
     private $contact;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 50, minMessage = "La descriptioon du circuit est trop courte")
+     * @Assert\Regex("/^\w+/")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $main_image;
 
@@ -85,6 +102,38 @@ class Listing
      * @ORM\Column(type="boolean")
      */
     private $isOpen;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ListingCity::class, inversedBy="listing")
+     */
+    private $city;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="listing")
+     */
+    private $country;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistCreatedAt() 
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistisOpen() 
+    {
+        if (empty($this->isOpen)) {
+            $this->isOpen = true;
+        }
+    }
+
+    
 
     public function __construct()
     {
@@ -304,6 +353,30 @@ class Listing
     public function setIsOpen(bool $isOpen): self
     {
         $this->isOpen = $isOpen;
+
+        return $this;
+    }
+
+    public function getCity(): ?ListingCity
+    {
+        return $this->city;
+    }
+
+    public function setCity(?ListingCity $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

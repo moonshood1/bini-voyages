@@ -1,111 +1,39 @@
 <div class="card-deck">
-    <div class="card presentation">
-        <a href="#">
-            <img class="card-img-top"src="https://images.unsplash.com/photo-1612831456327-9be2ebcfb715?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="Card image cap"/>
-        </a>
-        <div class="card-price">
-            <p>450 000 FCFA / <i class="fas fa-user"></i></p>
-        </div>
-        <div class="card-rating">
-            <p>4.9</p>
-        </div>
-        <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="" class="card-avatar" />
-        <div class="card-body">
-            <h5 class="card-title listing text-center mt-3"><a href="#">Dance Composer</a></h5>
-            <p class="card-text listing text-center">Outdoor, luxury for you</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="card-text listing">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <a href="#">New York </a> , <a href="#">USA </a>
-                    </p>
+    {% for listing in listings %} 
+        <div class="card presentation">
+            <a href="{{ path('user_listing_show',{'id':listing.id}) }}">
+                <img class="card-img-top" src="{{ listing.mainImage }}" alt="Card image cap"/>
+            </a>
+            <div class="card-price">
+                <p>{{ listing.price|number_format(0,'','  ')}} FCFA / <i class="fas fa-user"></i></p>
+            </div>
+            <div class="card-rating">
+                <p>4.9</p>
+            </div>
+            <img src="{{ listing.author.picture }}" alt="" class="card-avatar" />
+            <div class="card-body">
+                <h5 class="card-title listing text-center mt-3"><a href="#">{{ listing.title }}</a></h5>
+                <p class="card-text listing text-center">Outdoor, luxury for you</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="card-text listing">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <a href="#">{{ listing.city.name }} </a> , <a href="#">{{ listing.country.name }} </a>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="card-text listing">
+                            <i class="fas fa-phone-alt"></i> +225{{ listing.contact }}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <p class="card-text listing">
-                        <i class="fas fa-phone-alt"></i> +2250708990169
-                    </p>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="card-text listing">Aventure</p>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="card-text listing">{{ listing.listingCategory.title }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card presentation">
-        <a href="#">
-            <img class="card-img-top"src="https://images.unsplash.com/photo-1615731439720-47878ecc1ac6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80"alt="Card image cap"/>
-        </a>
-        <div class="card-price">
-            <p>150 000 FCFA / <i class="fas fa-user"></i></p>
-        </div>
-        <div class="card-rating">
-            <p>3.8</p>
-        </div>
-        <img src="https://randomuser.me/api/portraits/women/56.jpg"alt=""class="card-avatar"/>
-        <div class="card-body">
-            <h5 class="card-title listing text-center mt-3"><a href="#">Summer Music</a></h5>
-            <p class="card-text listing text-center">Active for you, my friend</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="card-text listing">
-                      <i class="fas fa-map-marker-alt"></i>
-                      <a href="#">New York </a> , <a href="#">USA </a>
-                    </p>
-                  </div>
-                  <div class="col-md-6">
-                    <p class="card-text listing">
-                      <i class="fas fa-phone-alt"></i> +2250708990169
-                    </p>
-                  </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="card-text listing">Aventure</p>
-                  </div>
-            </div>
-        </div>
-    </div>
-    <div class="card presentation">
-        <a href="#">
-            <img class="card-img-top" src="https://images.unsplash.com/photo-1586611961063-ddc490f9fb51?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="Card image cap" />
-        </a>
-        <div class="card-price">
-            <p>250 000 FCFA / <i class="fas fa-user"></i></p>
-        </div>
-        <div class="card-rating">
-            <p>4.5</p>
-        </div>
-        <img src="https://randomuser.me/api/portraits/women/56.jpg"alt=""  class="card-avatar" />
-        <div class="card-body">
-            <h5 class="card-title listing text-center mt-3">
-                <a href="#">Services Auto</a>
-            </h5>
-            <p class="card-text listing text-center">Outdoor, luxury for you</p>
-            <div class="row">
-                <div class="col-md-6">
-                <p class="card-text listing">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <a href="#">New York </a> , <a href="#">USA </a>
-                </p>
-            </div>
-            <div class="col-md-6">
-                <p class="card-text listing">
-                    <i class="fas fa-phone-alt"></i> +2250708990169
-                </p>
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-md-6">
-                <p class="card-text listing">Aventure</p>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
+    {% endfor %}
 </div>

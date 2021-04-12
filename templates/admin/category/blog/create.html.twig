@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Création{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+           {% include "admin/partials/navigation/navigation_detail.html.twig" %} 
+        </div>
+        <div class="col-md-9">
+            {% include "admin/partials/_form_default.html.twig" with {title:"Ajout d'une catégorie", button_title:"Ajouter la catégorie"} %}
+        </div>
+    </div>
+</div>
+{% endblock %}

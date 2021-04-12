@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\FrontPageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FrontPageRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class FrontPage
 {
@@ -19,61 +21,77 @@ class FrontPage
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 20, minMessage = "Le texte est trop court")
      */
     private $front_title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(min = 20, minMessage = "Le texte est trop court")
      */
     private $front_introduction;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $front_main_image;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min = 50, minMessage = "Le texte est trop court")
      */
     private $front_footer_about;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min = 20, minMessage = "La localisation est trop courte")
      */
     private $front_footer_location;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $front_footer_website;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max = 10, maxMessage = "Le contact doit avoir 10 chiffres")
+     * @Assert\Regex("/^\w+/")
      */
     private $front_footer_contact_1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max = 10, maxMessage = "Le contact doit avoir 10 chiffres")
+     * @Assert\Regex("/^\w+/")
      */
     private $front_footer_contact_2;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message = "l'email '{{ value }}' n'est pas une adresse mail valide.")
      */
     private $front_footer_email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $front_footer_facebook;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $front_footer_twitter;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $front_footer_instagram;
 

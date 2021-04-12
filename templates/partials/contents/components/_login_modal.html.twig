@@ -1,0 +1,60 @@
+{# modal Connexion #}
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row mr-auto ml-auto">
+            <div class="col-lg-12">
+              <form action=" {{ path('account_login') }}" method="post" class="mt-4">
+                <div class="form_login">
+                    <input type="email" name="_username" id="_username" class="_username mb-3" placeholder="Adresse email"/>
+                    <br>
+                    <input type="password" name="_password" id="_password" class="_password" placeholder="Mot de passe"/>
+                    <br>
+                    <button type="submit" class="submit mt-4"><p class="mt-1">Se connecter </p> </button>
+                </div>
+              </form>             
+            </div>
+          </div>
+          <div class="row mr-auto ml-auto">
+            <div class="col-lg-12">
+              <div class="form_login">
+                  <p class="text-center text-muted" style="font-size:14px;">Ou connectez vous avec ?</p>
+                  <p class="text-center"><a href="#" class="social"><i class="fab fa-google"></i> Google</a></p>
+                  <p class="text-center"><a href="#" class="social"><i class="fab fa-facebook"></i> Facebook</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Modal inscription #}
+{{ form_start(form) }}
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="registerModalLabel">Inscription</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% form_theme form 'bootstrap_4_layout.html.twig' %}
+        <div class="modal-body">
+          {{ form_widget(form) }}
+            <button type="submit" class="submit-subs mt-3"><p class="mt-1">S'inscrire</p> </button>
+        </div>
+      </div>
+    </div>
+  </div>
+{{ form_end(form) }}

@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\Listing;
+use App\Entity\ListingImage;
 use App\Form\BookingType;
 use App\Form\ListingType;
 use App\Repository\ListingRepository;
 use App\Services\Cart\CartService;
+use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,15 +88,29 @@ class ListingController extends AbstractController
 
 
     /**
-     * @Route("/admin/listing", name="admin_listing_index")
+     * @Route("/admin/listing/{page<\d+>?1}", name="admin_listing_index")
+     * @IsGranted("ROLE_ADMIN")
      * @param ListingRepository $listing_repo
      */
-    public function admin_listing_index(ListingRepository $listing_repo)
+    public function admin_listing_index(PaginationService $pagination,$page)
     {
+        $pagination->setEntityClass(Listing::class)->setPage($page);
+
         return $this->render('admin/listing/index.html.twig',[
-            'listings' => $listing_repo->findAll()
+            'pagination' => $pagination
         ]);
     } 
+
+    /**
+     * @Route("/admin/listing/all", name="admin_listing_show_all")
+     * @param ListingRepository $listing_repo
+     */
+    public function admin_listing_show_all(ListingRepository $listing_repo)
+    {
+        return $this->render('admin/listing/show_all.html.twig',[
+            'listings' => $listing_repo->findAll()
+        ]);
+    }
 
     /**
      * @Route("/admin/listing/create", name="admin_listing_create")
@@ -119,7 +135,7 @@ class ListingController extends AbstractController
             $manager->persist($listing);
             $manager->flush();
 
-            $this->addFlash('success',"Le circuit <strong> {$listing->getTitle()} </strong> a bien été créé !" );
+            $this->addFlash('success',"Le circuit {$listing->getTitle()} a bien été créé !" );
             return $this->redirectToRoute("admin_listing_index");
         }
 
@@ -150,7 +166,7 @@ class ListingController extends AbstractController
             $manager->persist($listing);
             $manager->flush();
 
-            $this->addFlash('success',"Le circuit <strong> {$listing->getTitle()} </strong> a bien été créé !" );
+            $this->addFlash('success',"Le circuit {$listing->getTitle()} a bien été créé !" );
             return $this->redirectToRoute("admin_listing_index");
         }
 
@@ -169,10 +185,10 @@ class ListingController extends AbstractController
     public function admin_listing_delete(EntityManagerInterface $manager,Listing $listing)
     {
         if (count($listing->getBookings()) > 0) {
-            $this->addFlash('Warning',"Le circuit <strong> {$listing->getTitle()} </strong> a bien été desactivé !");
+            $this->addFlash('Warning',"Le circuit {$listing->getTitle()} a bien été desactivé !");
             $listing->setIsOpen(false);
         } else {
-            $this->addFlash('Warning',"Le circuit <strong> {$listing->getTitle()} </strong> a bien été supprimé !");
+            $this->addFlash('Warning',"Le circuit {$listing->getTitle()} a bien été supprimé !");
             $manager->remove($listing);
             $manager->flush();
         }

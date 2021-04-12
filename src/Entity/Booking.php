@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Booking
 {
@@ -53,6 +54,26 @@ class Booking
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phoneNumber;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistCreatedAt()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \Datetime();
+        }
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistInvoiceNumber()
+    {
+        if (empty($this->invoiceNumber)) {
+            $this->invoiceNumber = substr(strtoupper(md5(date('Y-m-d h:i:s'))),0,-15);
+        }
+    }
 
     public function getId(): ?int
     {

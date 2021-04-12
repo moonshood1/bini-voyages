@@ -1,0 +1,76 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "admin/partials/flashes.html.twig" %}
+            {% include "admin/partials/navigation/navigation.html.twig" with {text:"Retour à l'accueil", link:"admin_home", detail_1:"Nombre de catégories: 4"} %} 
+        </div>
+        <div class="col-md-9">
+            <div class="card my-2">
+                <div class="card-body">
+                <h4 class="card-title"> Les Catégories de circuits Bini Voyages </h4>
+                <p><a href="{{ path('admin_category_listing_create') }}">Ajouter une catégorie</a></p> 
+                <small>Les differents types de catégorie de la plateforme Bini Voyages pour les circuits</small>
+                <table class="table table-hover">
+                        <thead class="thead">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Nom de la catégorie</th>
+                                <th scope="col">Nombre de circuits</th>
+                                <th scope="col" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cat in listing_cat %}
+                                <tr>
+                                    <td><i class="{{cat.categoryIcon}}"></i></td>
+                                    <td>{{ cat.title }}</td>
+                                    <td> {{ cat.listing|length }} </td>
+                                    <td class="text-center">
+                                        <a href="{{ path('admin_category_listing_delete',{'id': cat.id } )}} " class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ path('admin_category_listing_edit',{'id': cat.id })}} " class="btn btn-light"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card my-2">
+                <div class="card-body">
+                <h4 class="card-title"> Les Catégories des articles Bini Voyages </h4>
+                <p><a href="{{ path('admin_category_blog_create') }}">Ajouter une catégorie</a></p> 
+                <small>Les differents types de catégorie de la plateforme Bini Voyages pour les articles</small>
+                <table class="table table-hover">
+                        <thead class="thead">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Nom de la catégorie</th>
+                                <th scope="col">Nombre d'articles </th>
+                                <th scope="col" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cat in blog_cat %}
+                                <tr>
+                                    <td><i class="{{ cat.categoryIcon }}"></i></td>
+                                    <td>{{ cat.title }}</td>
+                                    <td> {{ cat.blog|length }} </td>
+                                    <td class="text-center">
+                                        <a href="{{ path('admin_category_blog_delete',{'id': cat.id } )}} " class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ path('admin_category_blog_edit',{'id': cat.id })}} " class="btn btn-light"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

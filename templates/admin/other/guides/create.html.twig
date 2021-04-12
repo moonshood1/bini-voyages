@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Guides Bini - Création {% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+           {% include "admin/partials/navigation/navigation_detail.html.twig" %} 
+        </div>
+        <div class="col-md-9">
+            {% include "admin/partials/_form_default.html.twig" with {title:"Ajout d'un Guide", button_title:"Ajouter le guide"} %}
+        </div>
+    </div>
+</div>
+{% endblock %}

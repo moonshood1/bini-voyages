@@ -13,6 +13,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *  fields = {"email"},
+ *  message = "Un autre utilisateur a déja cette adresse email, merci de la modifier"
+ * )
  */
 class User implements UserInterface
 {
@@ -25,26 +29,32 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Email(message="L'adresse saisie n'est pas de type email")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255 , nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      */
     private $password;
 
     /**
-     * @Assert\EqualTo(propertyPath="hash", message="Les deux mots de passe ne sont pas identiques")
+     * @Assert\EqualTo(propertyPath="password", message="Les deux mots de passe ne sont pas identiques")
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      */
     public $confirmPassword;
 
@@ -110,6 +120,26 @@ class User implements UserInterface
         $this->listings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistRegisteredAt() 
+    {
+        if (empty($this->registeredAt)) {
+            $this->registeredAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersistIsActive()
+    {
+        if (empty($this->isActive)) {
+            $this->isActive = false;
+        }
     }
 
     public function getId(): ?int

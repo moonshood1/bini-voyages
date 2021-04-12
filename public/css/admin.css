@@ -1,0 +1,37 @@
+.card {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+}
+
+/*  Les images de profil */
+
+.avatar {
+  max-width: 128px;
+  max-height: 128px;
+  border-radius: 50%;
+}
+
+.avatar-medium {
+  max-width: 64px;
+  max-height: 64px;
+}
+
+.avatar-mini {
+  max-width: 24px;
+  max-height: 24px;
+}
+
+/*  Les miniature des circuits */
+.miniature {
+  max-width: 128px;
+  max-height: 128px;
+}
+
+.miniature-large {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.miniature-mini {
+  max-width: 100px;
+  max-height: 100px;
+}

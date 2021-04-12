@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\GuidesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=GuidesRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Guides
 {
@@ -19,11 +21,16 @@ class Guides
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Length(max = 100, maxMessage = "le nom du guide est beaucoup trop long")
+     * @Assert\Regex("/^\w+/")
      */
     private $guide_name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
+     * @Assert\Url(message = "la valeur '{{ value }}' n'est pas une URL valide")
      */
     private $guide_picture;
 

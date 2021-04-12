@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Repository\BookingRepository;
+use App\Services\Pagination\PaginationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -31,14 +32,32 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/admin/booking", name="admin_booking_index")
+     * @Route("/admin/booking/{page<\d+>?1}", name="admin_booking_index")
      * @IsGranted("ROLE_ADMIN")
      * @param BookingRepository $booking_repo
      */
-    public function admin_booking_index(BookingRepository $booking_repo)
+    public function admin_booking_index(PaginationService $pagination, $page)
     {
+        $pagination->setEntityClass(Booking::class)->setPage($page);
         return $this->render('admin/booking/index.html.twig',[
-            'bookings' => $booking_repo->findAll()
+            'pagination' => $pagination
+        ]);
+    }
+
+    /**
+     * 
+     */
+    public function amdin_booking_delete(){}
+
+
+    /**
+     * @Route("/admin/booking/all", name="admin_booking_show_all")
+     * @param BookingRepository $booking_repo
+     */
+    public function admin_booking_all(BookingRepository $booking_repo)
+    {
+        return $this->render('admin/booking/show_all.html.twig',[
+            $booking_repo->findAll()
         ]);
     }
 

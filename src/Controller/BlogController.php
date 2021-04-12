@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Blog;
 use App\Form\BlogType;
 use App\Repository\BlogRepository;
+use App\Services\Pagination\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,15 +56,15 @@ class BlogController extends AbstractController
     */
 
     /**
-     * @Route("/admin/blog", name="admin_blog_index")
+     * @Route("/admin/blog/{page<\d+>?1}", name="admin_blog_index")
      * @IsGranted("ROLE_ADMIN")
      * @param BlogRepository $blog_repo
      */
-    public function admin_blog(BlogRepository $blog_repo)
+    public function admin_blog(PaginationService $pagination, $page)
     {
-        $articles = $blog_repo->findAll();
+       $pagination = $pagination->setEntityClass(Blog::class)->setPage($page);
         return $this->render('admin/blog/index.html.twig',[
-            'articles' => $articles
+            'pagination' => $pagination
         ]);
     }
 
@@ -84,7 +85,7 @@ class BlogController extends AbstractController
             $manager->persist($article);
             $manager->flush();
 
-            $this->addFlash("success","L'article <strong> {$article->getTitle()} </strong> a bien été créé !");
+            $this->addFlash("success","L'article {$article->getTitle()} a bien été créé !");
 
             return $this->redirectToRoute("admin_blog_index");
         }
@@ -110,12 +111,13 @@ class BlogController extends AbstractController
             $manager->persist($article);
             $manager->flush();
 
-            $this->addFlash("primary","L'article <strong> {$article->getTitle()} </strong> a bien été modifié !");
+            $this->addFlash("info","L'article {$article->getTitle()} a bien été modifié !");
 
             return $this->redirectToRoute("admin_blog_index");
         }
 
         return $this->render('admin/blog/edit.html.twig',[
+            'article' => $article,
             'form' => $form->createView()
         ]);
     }
@@ -132,7 +134,7 @@ class BlogController extends AbstractController
         $manager->remove($article);
         $manager->flush();
 
-        $this->addFlash("warning","L'article <strong> {$article->getTitle()} </strong> a bien été supprimé !");
+        $this->addFlash("danger","L'article {$article->getTitle()} a bien été supprimé !");
 
         $this->redirectToRoute("admin_blog_index");
     }
